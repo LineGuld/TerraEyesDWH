@@ -27,6 +27,7 @@ IF NOT EXISTS (
 		,[MinHum] [decimal](3,1)
 		,[MaxHum] [decimal](3,1)
 		,[MaxCarbon] [int]
+		-- ClimateZone varchar(64)
 		)
 GO
 
@@ -49,8 +50,8 @@ IF NOT EXISTS (
 		,[IsShedding] [bit] not null
 		,[IsHibernating] [bit] not null
 		,[HasOffspring] [bit] not null
-		,[ClimateZone] [varchar](64)
-		,[IsCurrent] [bit] not null
+		, [ValidFrom] [DATE]
+		, [ValidTo] [DATE]
 		)
 GO
 
@@ -63,7 +64,7 @@ IF NOT EXISTS (
 			AND type IN (N'U')
 		)
 CREATE TABLE [stage].[FactFiveMinuteSnapshotMeasurement] (
-	[AnimalID] [int] not null
+	[AnimalID] [int] 
 	,[Time] [Time] not null
 	,[Date] [Date] not null
 	,[UserID] [varchar](64) not null
@@ -76,21 +77,11 @@ CREATE TABLE [stage].[FactFiveMinuteSnapshotMeasurement] (
 	,[ActivityLabel] [varchar](15) 
 	,[ServoMoved] [bit] not null
 	,[ServoMovedLabel] [varchar](15)
-	, CONSTRAINT [PK_FactFiveMinuteSnapshotMeasurement] PRIMARY KEY CLUSTERED 
-	(
-	[AnimalID] ASC
-	,[Time] asc
-	,[Date] asc
-	,[UserID] asc
-	,[EUI] asc
-	) WITH (PAD_INDEX = OFF
-		,STATISTICS_NORECOMPUTE = OFF
-		,IGNORE_DUP_KEY = OFF
-		,ALLOW_ROW_LOCKS = ON
-		,ALLOW_PAGE_LOCKS = ON
-		,OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF
-		) ON [PRIMARY]
-	) ON [PRIMARY]
+	, TemperatureOutOfRangeFlag bit
+	, HumidityOutOfRangeFlag bit
+	, CarbonDioxideOutOfRangeFlag bit
+
+	) 
 GO
 
 
