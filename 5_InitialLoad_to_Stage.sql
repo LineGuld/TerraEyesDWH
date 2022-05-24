@@ -74,7 +74,6 @@ INSERT INTO [stage].[FactFiveMinuteSnapshotMeasurement]
 --,[Light]
 , [CarbonDioxid]
 , [Activity]
-,[ActivityLabel]
 , [ServoMoved]
 ,[ServoMovedLabel]
 ,[TemperatureOutOfRangeFlag]
@@ -92,9 +91,8 @@ INSERT INTO [stage].[FactFiveMinuteSnapshotMeasurement]
 		--,[Light]
 	   ,m.[carbondioxide]
 	   ,m.[activity]
-		,IIF(m.[activity] = 1, 'Animal moved', 'Animal did not move' ) as activityLabel
 	   ,m.[servomoved]
-		,IIF(m.[servomoved] = 1, 'Feeding confirmed', 'No feeding' ) as FeedingLabel
+		,IIF(m.[servomoved] = 1, 'Feeding', 'No feeding' ) as FeedingLabel
 		,IIF(m.[temperature] NOT BETWEEN te.[mintemperature] AND te.[maxtemperature] , 1, 0) as TemperatureFlag
 		,IIF(m.[humidity] NOT BETWEEN te.[minhumidity] AND te.[maxhumidity] , 1, 0) as HumidityFlag
 		,IIF(m.[carbondioxide] > te.[maxcarbondioxide] , 1, 0) as CarbonFlag

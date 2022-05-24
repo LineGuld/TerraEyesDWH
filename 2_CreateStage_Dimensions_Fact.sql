@@ -73,8 +73,7 @@ CREATE TABLE [stage].[FactFiveMinuteSnapshotMeasurement] (
 	,[Humidity] [decimal](3,1)
 	--,[Light] [int]
 	,[CarbonDioxid] [int]
-	,[Activity] [bit] not null
-	,[ActivityLabel] [varchar](15) 
+	,[Activity] [int] not null
 	,[ServoMoved] [bit] not null
 	,[ServoMovedLabel] [varchar](15)
 	, TemperatureOutOfRangeFlag bit
