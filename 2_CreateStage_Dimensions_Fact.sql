@@ -47,8 +47,8 @@ IF NOT EXISTS (
 		,[IsShedding] [bit] NOT NULL
 		,[IsHibernating] [bit] NOT NULL
 		,[HasOffspring] [bit] NOT NULL
-		,[ValidFrom] [DATE]
-		,[ValidTo] [DATE]
+		,[ValidFrom] [int]
+		,[ValidTo] [int]
 		)
 GO
 

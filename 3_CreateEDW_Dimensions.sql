@@ -1,5 +1,4 @@
---WARNING! ERRORS ENCOUNTERED DURING SQL PARSING!
---WARNING! ERRORS ENCOUNTERED DURING SQL PARSING!
+
 USE [TerraEyesDWH]
 GO
 
@@ -72,8 +71,8 @@ IF NOT EXISTS (
 		,[IsHibernating] [bit] NOT NULL
 		,[HasOffspring] [bit] NOT NULL
 		,[ClimateZone] [varchar](64)
-		,[ValidFrom] [DATE]
-		,[ValidTo] [DATE]
+		,[ValidFrom] [int]
+		,[ValidTo] [int]
 		,CONSTRAINT [PK_DimAnimal] PRIMARY KEY CLUSTERED ([A_ID] ASC) WITH (
 			PAD_INDEX = OFF
 			,STATISTICS_NORECOMPUTE = OFF

@@ -124,3 +124,8 @@ USE [TerraEyesDWH]
 GO
 CREATE SCHEMA [edw]
 GO
+
+USE [TerraEyesDWH]
+GO
+CREATE SCHEMA [etl]
+GO

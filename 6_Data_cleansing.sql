@@ -60,9 +60,46 @@ SET [AnimalID] = 0
 WHERE [AnimalID] is null
 
 UPDATE stage.FactFiveMinuteSnapshotMeasurement
+SET [Time] = '99:99'
+WHERE [Time] is NULL
+
+UPDATE stage.FactFiveMinuteSnapshotMeasurement
+SET [Date] = '9999-99-99'
+WHERE [Date] is NULL
+
+UPDATE stage.FactFiveMinuteSnapshotMeasurement
 SET [UserID] = 0
 WHERE [UserID] is null
 
 UPDATE stage.FactFiveMinuteSnapshotMeasurement
+SET EUI = 'UNKOWN TERRARIUM'
+WHERE EUI IS NULL
+
+UPDATE stage.FactFiveMinuteSnapshotMeasurement
+SET Temperature = -99.9
+WHERE Temperature is NULL
+
+UPDATE stage.FactFiveMinuteSnapshotMeasurement
+SET Humidity = -1
+WHERE Humidity IS NULL
+
+UPDATE stage.FactFiveMinuteSnapshotMeasurement
+SET CarbonDioxid = -1
+WHERE CarbonDioxid IS NULL
+
+UPDATE stage.FactFiveMinuteSnapshotMeasurement
 SET [Activity] = 0
 WHERE [Activity] is null
+
+-- Servo Moved
+UPDATE stage.FactFiveMinuteSnapshotMeasurement
+SET ServoMoved = 0
+WHERE ServoMoved is NULL
+
+-- Servo label, vil altid være sat fordi den er beregnet i DWH
+
+-- Temp flag, vil altid være sat fordi den er beregnet i DWH
+
+-- Hum flag, vil altid være sat fordi den er beregnet i DWH
+
+-- Carbon flag, vil altid være sat fordi den er beregnet i DWH
