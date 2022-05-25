@@ -1,3 +1,5 @@
+--WARNING! ERRORS ENCOUNTERED DURING SQL PARSING!
+--WARNING! ERRORS ENCOUNTERED DURING SQL PARSING!
 USE [TerraEyesDWH]
 GO
 
@@ -31,12 +33,12 @@ IF NOT EXISTS (
 		)
 	CREATE TABLE [edw].[DimTerrarium] (
 		[TE_ID] [int] identity NOT NULL
-		,[EUI] [varchar](64) not null
-		,[UserID] [varchar](64) not null
-		,[MinTemp]  [decimal](3,1)
-		,[MaxTemp]  [decimal](3,1)
-		,[MinHum]  [decimal](3,1)
-		,[MaxHum]  [decimal](3,1)
+		,[EUI] [varchar](64) NOT NULL
+		,[UserID] [varchar](64) NOT NULL
+		,[MinTemp] [decimal](3, 1)
+		,[MaxTemp] [decimal](3, 1)
+		,[MinHum] [decimal](3, 1)
+		,[MaxHum] [decimal](3, 1)
 		,[MaxCarbon] [int]
 		,CONSTRAINT [PK_DimTerrarium] PRIMARY KEY CLUSTERED ([TE_ID] ASC) WITH (
 			PAD_INDEX = OFF
@@ -50,7 +52,6 @@ IF NOT EXISTS (
 GO
 
 --ALTER TABLE [edw].[DimTerrarium] ADD CONSTRAINT FK_EDWTerrarium FOREIGN KEY (UserID) REFERENCES [edw].[DimUser] (UserID);
-
 /****** Create Animal Table if it does not exist ******/
 IF NOT EXISTS (
 		SELECT *
@@ -60,19 +61,19 @@ IF NOT EXISTS (
 		)
 	CREATE TABLE [edw].[DimAnimal] (
 		[A_ID] [int] identity NOT NULL
-		,[AnimalID] [int] not null
+		,[AnimalID] [int] NOT NULL
 		,[EUI] [varchar](64)
 		,[Name] [varchar](64)
 		,[Age] [int]
 		,[Species] [varchar](128)
 		--,[Morph] [varchar](40)
 		,[Sex] [char]
-		,[IsShedding] [bit] not null
-		,[IsHibernating] [bit] not null
-		,[HasOffspring] [bit] not null
+		,[IsShedding] [bit] NOT NULL
+		,[IsHibernating] [bit] NOT NULL
+		,[HasOffspring] [bit] NOT NULL
 		,[ClimateZone] [varchar](64)
-		, [ValidFrom] [DATE]
-		, [ValidTo] [DATE]
+		,[ValidFrom] [DATE]
+		,[ValidTo] [DATE]
 		,CONSTRAINT [PK_DimAnimal] PRIMARY KEY CLUSTERED ([A_ID] ASC) WITH (
 			PAD_INDEX = OFF
 			,STATISTICS_NORECOMPUTE = OFF
@@ -85,7 +86,6 @@ IF NOT EXISTS (
 GO
 
 --ALTER TABLE [edw].[DimAnimal] ADD CONSTRAINT FK_DimAnimal FOREIGN KEY (EUI) REFERENCES [edw].[DimTerrarium] (EUI);
-
 /****** Create Date Table if it does not exist ******/
 IF NOT EXISTS (
 		SELECT *
@@ -172,4 +172,69 @@ IF NOT EXISTS (
 		) ON [PRIMARY]
 GO
 
+/****** Adding data from start of times until end of times... almost... ******/
+-- Total antal timer declares
+DECLARE @Size INTEGER
 
+SET @Size = 23
+
+-- Disse tre bruges til initial time values 
+DECLARE @hour INTEGER
+DECLARE @minute INTEGER
+DECLARE @second INTEGER
+-- Nedenstående bruges ved formateringstilpasning
+DECLARE @Time VARCHAR(25)
+DECLARE @Hour30 VARCHAR(4)
+DECLARE @Minute30 VARCHAR(4)
+DECLARE @Second30 VARCHAR(4)
+
+SET @hour = 0
+SET @minute = 0
+SET @second = 0
+
+WHILE (@hour <= @Size)
+BEGIN
+	-- 0 tilføjes foran timer, minutter og sekunder under 10...
+	IF (@hour < 10)
+	BEGIN
+		SET @Hour30 = '0' + cast(@hour AS VARCHAR(10))
+	END
+	ELSE
+	BEGIN
+		SET @Hour30 = @hour
+	END
+
+	WHILE (@minute <= 59)
+	BEGIN
+		WHILE (@second <= 59)
+		BEGIN
+			IF @minute < 10
+			BEGIN
+				SET @Minute30 = '0' + cast(@minute AS VARCHAR(10))
+			END
+			ELSE
+			BEGIN
+				SET @Minute30 = @minute
+			END
+
+			IF @second < 10
+			BEGIN
+				SET @Second30 = '0' + cast(@second AS VARCHAR(10))
+			END
+			ELSE
+			BEGIN
+				SET @Second30 = @second
+			END
+
+			--Concatenate values for Time30 
+			SET @Time = @Hour30 + ':' + @Minute30 + ':' + @Second30
+	INSERT into edw.[DimTime] ([Time]) 
+VALUES (@Time) 
+SET @second = @second + 1 
+END 
+SET @minute = @minute + 1 
+SET @second = 0 
+END 
+SET @hour = @hour + 1 
+SET @minute =0 
+END 
