@@ -71,7 +71,8 @@ IF NOT EXISTS (
 		,[IsHibernating] [bit] not null
 		,[HasOffspring] [bit] not null
 		,[ClimateZone] [varchar](64)
-		,[IsCurrent] [bit] not null
+		, [ValidFrom] [DATE]
+		, [ValidTo] [DATE]
 		,CONSTRAINT [PK_DimAnimal] PRIMARY KEY CLUSTERED ([A_ID] ASC) WITH (
 			PAD_INDEX = OFF
 			,STATISTICS_NORECOMPUTE = OFF

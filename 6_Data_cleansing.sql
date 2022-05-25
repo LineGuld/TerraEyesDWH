@@ -8,7 +8,7 @@ SET [Name] = 'UNKNOWN'
 WHERE [Name] is NULL
 
 UPDATE stage.DimAnimal
-SET Age = -1 --Sat til et meget højt til fordi 0 jo bare kunne være en baby og et højt tal kunne være en skildpadde
+SET Age = -1 --Sat til -1 fordi 0 jo bare kunne være en baby og et højt tal kunne være en skildpadde
 WHERE Age is NULL
 
 UPDATE stage.DimAnimal
