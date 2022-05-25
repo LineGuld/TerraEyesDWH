@@ -13,14 +13,21 @@ IF NOT EXISTS (
 		,[D_ID] INT NOT NULL
 		,[U_ID] INT NOT NULL
 		,[TE_ID] INT NOT NULL
+		,[AnimalID] [int]
+		,[Time] [time]
+		,[Date] [date]
+		,[UserID] [varchar](64)
+		,[EUI] [varchar](64)
 		,[Temperature] [float]
 		,[Humidity] [float]
-		,[Light] [int]
+		,[Lumen] [int]
 		,[CarbonDioxid] [float]
-		,[Activity] [bit]
-		,[ActivityLabel] [varchar](15)
+		,[Activity] [int]
 		,[ServoMoved] [bit]
 		,[ServoMovedLabel] [varchar](15)
+		,[TemperatureOutOfRangeFlag] [bit]
+		,[HumidityOutOfRangeFlag] [bit]
+		,[CarbonDioxideOutOfRangeFlag] [bit]
 		);
 GO
 

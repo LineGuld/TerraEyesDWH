@@ -58,3 +58,11 @@ WHERE MaxCarbon is null
 UPDATE stage.FactFiveMinuteSnapshotMeasurement
 SET [AnimalID] = 0
 WHERE [AnimalID] is null
+
+UPDATE stage.FactFiveMinuteSnapshotMeasurement
+SET [UserID] = 0
+WHERE [UserID] is null
+
+UPDATE stage.FactFiveMinuteSnapshotMeasurement
+SET [Activity] = 0
+WHERE [Activity] is null
