@@ -13,7 +13,6 @@ INSERT INTO [stage].[DimUser] ([UserID])
 TRUNCATE TABLE [stage].[DimTerrarium]
 
 INSERT INTO [stage].[DimTerrarium] ([EUI]
-, [UserID]
 , [MinTemp]
 , [MaxTemp]
 , [MinHum]
@@ -21,16 +20,13 @@ INSERT INTO [stage].[DimTerrarium] ([EUI]
 , [MaxCarbon])
 	SELECT
 		te.[EUI]
-	   ,u.[id]
 	   ,te.[MinTemperature]
 	   ,te.[MaxTemperature]
 	   ,te.[MinHumidity]
 	   ,te.[MaxHumidity]
 	   ,te.[MaxCarbondioxide]
 	FROM [POSTGRESTE].[terraeyes].[terraeyes].[terrarium] te
-	INNER JOIN [POSTGRESTE].[terraeyes].[terraeyes].[User] u
-		ON te.UserID = u.id
-
+	
 
 /****** Load to stage Animal  ******/
 TRUNCATE TABLE [stage].[DimAnimal]

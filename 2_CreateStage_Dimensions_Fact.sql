@@ -19,7 +19,6 @@ IF NOT EXISTS (
 		)
 	CREATE TABLE [stage].[DimTerrarium] (
 		[EUI] [varchar](64) PRIMARY KEY NOT NULL
-		,[UserID] [varchar](64) NOT NULL
 		,[MinTemp] [decimal](3, 1)
 		,[MaxTemp] [decimal](3, 1)
 		,[MinHum] [decimal](3, 1)

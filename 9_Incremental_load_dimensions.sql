@@ -45,7 +45,9 @@ WHERE UserID IN(
 
 	SELECT  UserID
 	From stage.DimUser
-)
-
+	
+) AND edw.DimUser = 1
 
 -- Der skulle ikke så gerne ske ændringer i users, eftersom det kun der deres ID fra firebase og en indikator på om det er en gældende user
+
+

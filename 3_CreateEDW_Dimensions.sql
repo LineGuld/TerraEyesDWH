@@ -33,7 +33,6 @@ IF NOT EXISTS (
 	CREATE TABLE [edw].[DimTerrarium] (
 		[TE_ID] [int] identity NOT NULL
 		,[EUI] [varchar](64) NOT NULL
-		,[UserID] [varchar](64) NOT NULL
 		,[MinTemp] [decimal](3, 1)
 		,[MaxTemp] [decimal](3, 1)
 		,[MinHum] [decimal](3, 1)
