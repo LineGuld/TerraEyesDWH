@@ -12,6 +12,7 @@ IF NOT EXISTS (
 	CREATE TABLE [edw].[DimUser] (
 		[U_ID] [int] identity NOT NULL
 		,[UserID] [varchar](64)
+		,[IsValid] [BIT] NOT NULL
 		,CONSTRAINT [PK_DimUser] PRIMARY KEY CLUSTERED ([U_ID] ASC) WITH (
 			PAD_INDEX = OFF
 			,STATISTICS_NORECOMPUTE = OFF

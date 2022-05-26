@@ -25,9 +25,10 @@ VALUES ('DimAnimal', 20222505)
 ALTER table edw.DimTerrarium ADD ValidFrom int, ValidTo int 
 GO
 
+/*
 ALTER table edw.DimUser add IsValid bit 
-GO
+GO*/
 
 UPDATE edw.DimTerrarium SET ValidFrom = 20222505, ValidTo = 99990101 
 UPDATE edw.DimAnimal SET ValidFrom = 20222505, ValidTo = 99990101 
-UPDATE edw.DimUser SET IsValid = 1
+--UPDATE edw.DimUser SET IsValid = 1

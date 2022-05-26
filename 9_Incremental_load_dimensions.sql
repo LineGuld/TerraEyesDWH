@@ -15,7 +15,7 @@ SET @LastLoadDate = (
 		)
 
 /**		Nye Users	**/
-INSERT INTO [edw].DimUser (
+INSERT INTO [edw].[DimUser] (
 	UserID
 	,IsValid
 	)
@@ -33,7 +33,7 @@ WHERE UserID IN (
 		)
 
 /**		Slettede Users		**/
-UPDATE edw.DimUser
+UPDATE [edw].[DimUser]
 SET IsValid = 0 --Hvis brugeren er i EDW men ikke i stage, er den blevet slettet og valid sættes til 0
 WHERE UserID IN (
 		SELECT UserID
@@ -44,7 +44,7 @@ WHERE UserID IN (
 		SELECT UserID
 		FROM stage.DimUser
 		)
-	AND edw.DimUser = 1
+	AND IsValid = 1
 
 /**		Late arriving users		**/
 UPDATE [edw].[FactFiveMinuteSnapshotMeasurement]
@@ -66,7 +66,7 @@ SET UserID = (
 				SELECT UserID
 				FROM [edw].[DimUser]
 				)
-		) 
+		) WHERE UserID = '-1' --Men sæt den kun hvis bruger-ID i EDW er det vi har brugt til late arriving users
 
 /**			TERRARIUM		**/
 SET @LastLoadDate = (
@@ -105,3 +105,4 @@ WHERE EUI IN (
 		FROM edw.DimTerrarium
 		WHERE ValidTo = @FutureDate
 		)
+
