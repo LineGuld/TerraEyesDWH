@@ -50,7 +50,6 @@ IF NOT EXISTS (
 		) ON [PRIMARY]
 GO
 
---ALTER TABLE [edw].[DimTerrarium] ADD CONSTRAINT FK_EDWTerrarium FOREIGN KEY (UserID) REFERENCES [edw].[DimUser] (UserID);
 /****** Create Animal Table if it does not exist ******/
 IF NOT EXISTS (
 		SELECT *
@@ -84,7 +83,6 @@ IF NOT EXISTS (
 		) ON [PRIMARY]
 GO
 
---ALTER TABLE [edw].[DimAnimal] ADD CONSTRAINT FK_DimAnimal FOREIGN KEY (EUI) REFERENCES [edw].[DimTerrarium] (EUI);
 /****** Create Date Table if it does not exist ******/
 IF NOT EXISTS (
 		SELECT *

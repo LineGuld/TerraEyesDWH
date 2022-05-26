@@ -2,6 +2,12 @@ USE [TerraEyesDWH]
 GO
 
 /***	ETL Log Table		**/
+IF NOT EXISTS (
+		SELECT *
+		FROM sys.objects
+		WHERE object_id = OBJECT_ID(N'[etl].[LogUpdate]')
+			AND type IN (N'U')
+		)
 CREATE Table etl.[LogUpdate](
 	[TableName] nvarchar(50)
 	,[LastLoadDate] INT

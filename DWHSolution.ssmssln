@@ -3,12 +3,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # SQL Server Management Studio Solution File, Format Version 18.00
 VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{756D9C77-7187-4E65-9088-A72C3332CA43}"
+	ProjectSection(SolutionItems) = preProject
+		1_CreateDWH.sql = 1_CreateDWH.sql
+		2_CreateStage_Dimensions_Fact.sql = 2_CreateStage_Dimensions_Fact.sql
+		3_CreateEDW_Dimensions.sql = 3_CreateEDW_Dimensions.sql
+		4_CreateEDW_FactFiveMinuteSnapshotMeasurement.sql = 4_CreateEDW_FactFiveMinuteSnapshotMeasurement.sql
+		5_InitialLoad_to_Stage.sql = 5_InitialLoad_to_Stage.sql
+		6_Data_cleansing.sql = 6_Data_cleansing.sql
+		7_Load_stage_into_edw.sql = 7_Load_stage_into_edw.sql
+		8_SCD_InitialLoad.sql = 8_SCD_InitialLoad.sql
+		9_Incremental_load_dimensions.sql = 9_Incremental_load_dimensions.sql
+		select_DET_HELE.sql = select_DET_HELE.sql
+		select_statements_til_DB.sql = select_statements_til_DB.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Default|Default = Default|Default
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{83A52440-88A6-4E19-841D-21BD5252443B}.Default|Default.ActiveCfg = Default
+		{348ACF00-BDD9-4778-AC0E-932B4736F523}.Default|Default.ActiveCfg = Default
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
