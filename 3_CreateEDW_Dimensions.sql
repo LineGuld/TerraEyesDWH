@@ -58,7 +58,7 @@ IF NOT EXISTS (
 		)
 	CREATE TABLE [edw].[DimAnimal] (
 		[A_ID] [int] identity NOT NULL
-		,[AnimalID] [int] NOT NULL
+		,[AnimalID] [int]
 		,[EUI] [varchar](64)
 		,[Name] [varchar](64)
 		,[Age] [int]

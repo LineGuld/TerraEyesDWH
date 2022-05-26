@@ -36,7 +36,6 @@ INSERT INTO [stage].[DimAnimal] ([AnimalID]
 , [Name]
 , [Age]
 , [Species]
---,[Morph]
 , [Sex]
 , [IsShedding]
 , [IsHibernating]
@@ -47,13 +46,12 @@ INSERT INTO [stage].[DimAnimal] ([AnimalID]
 	   ,a.[Name]
 	   ,a.[Age]
 	   ,a.[Species]
-		--,[Morph]
 	   ,a.[Sex]
 	   ,a.[IsShedding]
 	   ,a.[IsHibernating]
 	   ,a.[HasOffspring]
 	FROM OPENQUERY(POSTGRESTE, 'SELECT * FROM terraeyes.animal') a
-	INNER JOIN [POSTGRESTE].[terraeyes].[terraeyes].[terrarium] te
+	 full JOIN [POSTGRESTE].[terraeyes].[terraeyes].[terrarium] te
 		ON a.EUI = te.EUI
 
 /****** Load to stage FactFiveMinuteSnapshotMeasurement  ******/
