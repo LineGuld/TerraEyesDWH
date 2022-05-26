@@ -37,17 +37,48 @@ INSERT INTO [edw].DimUser (UserID
 /**		Slettede Users		**/
 UPDATE edw.DimUser
 SET IsValid = 0 --Hvis brugeren er i EDW men ikke i stage, er den blevet slettet og valid sættes til 0
-WHERE UserID IN(
-	SELECT UserID
-	from edw.DimUser
+WHERE UserID IN (SELECT
+		UserID
+	FROM edw.DimUser
 
 	EXCEPT
 
-	SELECT  UserID
-	From stage.DimUser
-	
-) AND edw.DimUser = 1
+	SELECT
+		UserID
+	FROM stage.DimUser)
+AND edw.DimUser = 1
 
 -- Der skulle ikke så gerne ske ændringer i users, eftersom det kun der deres ID fra firebase og en indikator på om det er en gældende user
 
 
+/**			TERRARIUM		**/
+SET @LastLoadDate = (SELECT
+		MAX([LastLoadDate])
+	FROM [etl].[LogUpdate]
+	WHERE [TableName] = 'DimTerrarium')
+
+/** De nye terrarier **/
+INSERT INTO edw.DimTerrarium (
+	EUI,
+	
+)
+	SELECT
+		EUI
+	   ,MinTemp
+	   ,MaxTemp
+	   ,MinHum
+	   ,MaxHum
+	   ,MaxCarbon
+	   , @NewLoadDate
+	   , @FutureDate
+	FROM stage.DimTerrarium
+	WHERE EUI IN (SELECT
+			EUI
+		FROM stage.DimTerrarium
+
+		EXCEPT
+
+		SELECT
+			EUI
+		FROM edw.DimTerrarium
+		WHERE ValidTo = @FutureDate)

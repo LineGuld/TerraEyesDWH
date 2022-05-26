@@ -8,7 +8,6 @@ FROM [stage].[DimUser]
 /****** Load to edw Terrarium  ******/
 INSERT INTO [edw].[DimTerrarium] (
 	[EUI]
-	,[UserID]
 	,[MinTemp]
 	,[MaxTemp]
 	,[MinHum]
@@ -16,7 +15,6 @@ INSERT INTO [edw].[DimTerrarium] (
 	,[MaxCarbon]
 	)
 SELECT [EUI]
-	,[UserID]
 	,[MinTemp]
 	,[MaxTemp]
 	,[MinHum]
