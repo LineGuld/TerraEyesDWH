@@ -1,8 +1,8 @@
 USE [TerraEyesDWH]
 
 /****** Load to edw User  ******/
-INSERT INTO [edw].[DimUser] ([UserID])
-SELECT [UserID]
+INSERT INTO [edw].[DimUser] ([UserID], [IsValid])
+SELECT [UserID], 1
 FROM [stage].[DimUser]
 
 /****** Load to edw Terrarium  ******/

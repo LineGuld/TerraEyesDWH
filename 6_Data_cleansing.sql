@@ -62,12 +62,13 @@ UPDATE stage.FactFiveMinuteSnapshotMeasurement
 SET AnimalID = -1 -- Betyder stadig intet dyr
 WHERE [AnimalID] IS NULL
 
+/**
 UPDATE stage.FactFiveMinuteSnapshotMeasurement
-SET [Time] = '99:99'
-WHERE [Time] IS NULL
+SET [Time] = '00:00'
+WHERE [Time] IS NULL **/
 
 UPDATE stage.FactFiveMinuteSnapshotMeasurement
-SET [Date] = '9999-99-99'
+SET [Date] = '9999-01-01'
 WHERE [Date] IS NULL
 
 UPDATE stage.FactFiveMinuteSnapshotMeasurement
