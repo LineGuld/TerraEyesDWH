@@ -16,9 +16,10 @@ SET @LastLoadDate = (SELECT
 	-- Staging newly arrived facts 
 	TRUNCATE TABLE stage.FactFiveMinuteSnapshotMeasurement
 
-INSERT INTO stage.FactFiveMinuteSnapshotMeasurement (AnimalID
-, [Time]
+INSERT INTO stage.FactFiveMinuteSnapshotMeasurement (
+AnimalID
 , [Date]
+, [Time]
 , UserID
 , EUI
 , Temperature

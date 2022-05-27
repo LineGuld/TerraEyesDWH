@@ -94,8 +94,10 @@ a.[A_ID]
 	,f.[HumidityOutOfRangeFlag]
 	,f.[CarbonDioxideOutOfRangeFlag]
 FROM [stage].[FactFiveMinuteSnapshotMeasurement] f
- JOIN [edw].[DimAnimal] AS a ON f.[AnimalID] = a.[AnimalID]
- JOIN [edw].[DimTime] AS t ON f.[Time] = t.[Time]
- JOIN [edw].[DimDate] AS d ON f.[Date] = d.[Date]
- JOIN [edw].[DimUser] AS u ON f.[UserID] = u.[UserID]
- JOIN [edw].[DimTerrarium] AS te ON f.[EUI] = te.[EUI]
+inner JOIN [edw].[DimAnimal]  a ON f.[AnimalID] = a.[AnimalID]
+inner JOIN [edw].[DimTime]  t ON f.[Time] = t.[Time]
+inner JOIN [edw].[DimDate]  d ON f.[Date] = d.[Date]
+inner JOIN [edw].[DimUser]  u ON f.[UserID] = u.[UserID]
+inner JOIN [edw].[DimTerrarium]  te ON f.[EUI] = te.[EUI]
+
+ --2160
