@@ -6,7 +6,7 @@ TRUNCATE TABLE [stage].[DimUser]
 INSERT INTO [stage].[DimUser] ([UserID])
 	SELECT
 		[id]
-	FROM [POSTGRESTE].[terraeyes].[terraeyes].[User];
+	FROM [POSTGRESTE].[terraeyes].[terraeyes].[user];
 
 
 /****** Load to stage Terrarium  ******/
@@ -51,7 +51,7 @@ INSERT INTO [stage].[DimAnimal] ([AnimalID]
 	   ,a.[IsHibernating]
 	   ,a.[HasOffspring]
 	FROM OPENQUERY(POSTGRESTE, 'SELECT * FROM terraeyes.animal') a
-	 full JOIN [POSTGRESTE].[terraeyes].[terraeyes].[terrarium] te
+	  JOIN [POSTGRESTE].[terraeyes].[terraeyes].[terrarium] te
 		ON a.EUI = te.EUI
 
 /****** Load to stage FactFiveMinuteSnapshotMeasurement  ******/
@@ -75,7 +75,7 @@ INSERT INTO [stage].[FactFiveMinuteSnapshotMeasurement]
 ,[CarbonDioxideOutOfRangeFlag]
 )
 	SELECT
-		a.[id]
+		m.[id]
 	   ,CAST(m.[timestamp] AS DATE) as [date]
 	   ,CAST(m.[timestamp] AS TIME) as [time]
 	   ,u.[id]
@@ -93,9 +93,7 @@ INSERT INTO [stage].[FactFiveMinuteSnapshotMeasurement]
 	FROM OPENQUERY(POSTGRESTE, 'SELECT * FROM terraeyes.measurement') m
 	inner JOIN OPENQUERY(POSTGRESTE, 'SELECT * FROM terraeyes.terrarium') te
 		ON m.EUI = te.EUI
-	full JOIN OPENQUERY(POSTGRESTE, 'SELECT * FROM terraeyes.animal') a
-		ON te.EUI = a.EUI
-	inner JOIN [POSTGRESTE].[terraeyes].[terraeyes].[User] u
+	 JOIN [POSTGRESTE].[terraeyes].[terraeyes].[user] u
 		ON te.userid = u.id
 
 

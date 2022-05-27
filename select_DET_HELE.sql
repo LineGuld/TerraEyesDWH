@@ -1,5 +1,7 @@
 
-select * from stage.FactFiveMinuteSnapshotMeasurement
+
+
+select * from stage.DimAnimal
 
 
 select * from edw.DimAnimal
@@ -9,5 +11,6 @@ select * from edw.DimUser
 select * from edw.DimTerrarium
 
 
+select * from stage.FactFiveMinuteSnapshotMeasurement where AnimalID is not null
 
 select * from edw.FactFiveMinuteSnapshotMeasurement

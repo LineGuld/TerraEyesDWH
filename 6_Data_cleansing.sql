@@ -21,7 +21,7 @@ WHERE Sex IS NULL
 
 --De nedenstående bliver sat til 0 hvis de er null, under antagelse af at brugeren ikke er interesseret i dem, hvis de ikke er indtastet
 UPDATE stage.DimAnimal
-SET AnimalID = -1 -- Betyder stadig intet dyr
+SET AnimalID = 0 -- Betyder stadig intet dyr
 WHERE AnimalID IS NULL
 
 UPDATE stage.DimAnimal
@@ -43,7 +43,7 @@ WHERE MinTemp IS NULL
 
 UPDATE stage.DimTerrarium
 SET MaxTemp = 40 -- https://www.jabberwockreptiles.com/news/temperature-range-for-reptiles/ der er noget variation, men 40 virker som om det er til den varme side
-WHERE MinTemp IS NULL
+WHERE MaxTemp IS NULL
 
 UPDATE stage.DimTerrarium
 SET MinHum = 10 -- https://www.sensorpush.com/articles/temperature-and-humidity-monitoring-for-pet-reptiles-and-amphibians det kommer virkelig meget an på dyret
@@ -58,9 +58,9 @@ SET MaxCarbon = 5000 -- så følger vi OSHA guidelines for vores dyr https://www.f
 WHERE MaxCarbon IS NULL
 
 /***		FACT		***/
-UPDATE stage.FactFiveMinuteSnapshotMeasurement
-SET AnimalID = -1 -- Betyder stadig intet dyr
-WHERE [AnimalID] IS NULL
+/* UPDATE stage.FactFiveMinuteSnapshotMeasurement
+SET AnimalID = 0 -- Betyder stadig intet dyr
+WHERE [AnimalID] IS NULL */
 
 /**
 UPDATE stage.FactFiveMinuteSnapshotMeasurement
@@ -94,6 +94,10 @@ WHERE CarbonDioxid IS NULL
 UPDATE stage.FactFiveMinuteSnapshotMeasurement
 SET [Activity] = 0
 WHERE [Activity] IS NULL
+
+UPDATE stage.FactFiveMinuteSnapshotMeasurement
+SET [Lumen] = -1
+WHERE [Lumen] IS NULL
 
 -- Servo Moved
 UPDATE stage.FactFiveMinuteSnapshotMeasurement
