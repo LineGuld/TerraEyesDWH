@@ -104,10 +104,30 @@ INSERT INTO edw.DimTerrarium (EUI
 		FROM edw.DimTerrarium
 		WHERE ValidTo = @FutureDate)
 
-/**		De tarrarier folk sletter!		**/
+/**		De terrarier folk sletter!		**/
+UPDATE edw.DimTerrarium
+SET ValidTo = @NewLoadDate - 1
+WHERE EUI IN (SELECT
+		EUI
+	FROM edw.DimTerrarium
+	WHERE EUI IN (
+		SELECT EUI
+		FROM [edw].DimTerrarium
 
+		EXCEPT
 
-
+		SELECT EUI
+		FROM [stage].DimTerrarium)
+		)
+AND ValidTo = @FutureDate
+INSERT INTO etl.LogUpdate(
+	TableName
+	,LastLoadDate
+)
+VALUES(
+'DimTerrarium'
+,@NewLoadDate
+)
 
 
 /**			ANIMAL		**/
@@ -238,3 +258,29 @@ WHERE AnimalID IN (SELECT
 AND edw.DimAnimal.ValidFrom < @NewLoadDate
 
 DROP TABLE IF EXISTS #temp
+
+/**		Dem der er blevet slettet		**/
+UPDATE edw.DimAnimal
+SET ValidTo = @NewLoadDate - 1
+WHERE AnimalID IN (SELECT
+		AnimalID
+	FROM edw.DimAnimal
+	WHERE AnimalID IN (
+		SELECT AnimalID
+		FROM [edw].DimAnimal
+
+		EXCEPT
+
+		SELECT AnimalID
+		FROM [stage].DimAnimal)
+		)
+AND ValidTo = @FutureDate
+
+INSERT INTO etl.LogUpdate(
+	TableName
+	,LastLoadDate
+)
+VALUES(
+'DimAnimal'
+,@NewLoadDate
+)
