@@ -8,12 +8,10 @@ IF NOT EXISTS (
 			AND type IN (N'U')
 		)
 	CREATE TABLE [edw].[FactFiveMinuteSnapshotMeasurement] (
-		[A_ID] INT NOT NULL
-		,[T_ID] INT NOT NULL
+		[T_ID] INT NOT NULL
 		,[D_ID] INT NOT NULL
 		,[U_ID] INT NOT NULL
 		,[TE_ID] INT NOT NULL
-		,[AnimalID] [int]
 		,[Time] [time]
 		,[Date] [date]
 		,[UserID] [varchar](64)
@@ -32,14 +30,12 @@ IF NOT EXISTS (
 GO
 
 ALTER TABLE [edw].[FactFiveMinuteSnapshotMeasurement] ADD CONSTRAINT PK_FactSale PRIMARY KEY (
-	A_ID ASC
-	,T_ID ASC
+T_ID ASC
 	,D_ID ASC
 	,U_ID ASC
 	,TE_ID ASC
 	);
 
-ALTER TABLE [edw].[FactFiveMinuteSnapshotMeasurement] ADD CONSTRAINT FK_FactSale_0 FOREIGN KEY (A_ID) REFERENCES edw.DimAnimal (A_ID);
 
 ALTER TABLE [edw].[FactFiveMinuteSnapshotMeasurement] ADD CONSTRAINT FK_FactSale_1 FOREIGN KEY (D_ID) REFERENCES edw.DimDate (D_ID);
 

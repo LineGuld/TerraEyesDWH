@@ -64,14 +64,11 @@ IF NOT EXISTS (
 		,[Name] [varchar](64)
 		,[Age] [int]
 		,[Species] [varchar](128)
-		--,[Morph] [varchar](40)
 		,[Sex] [char]
 		,[IsShedding] [bit] NOT NULL
 		,[IsHibernating] [bit] NOT NULL
 		,[HasOffspring] [bit] NOT NULL
 		,[ClimateZone] [varchar](64)
-		,[ValidFrom] [int]
-		,[ValidTo] [int]
 		,CONSTRAINT [PK_DimAnimal] PRIMARY KEY CLUSTERED ([A_ID] ASC) WITH (
 			PAD_INDEX = OFF
 			,STATISTICS_NORECOMPUTE = OFF

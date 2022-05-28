@@ -44,8 +44,6 @@ IF NOT EXISTS (
 		,[IsShedding] [bit] 
 		,[IsHibernating] [bit] 
 		,[HasOffspring] [bit]
-		,[ValidFrom] [int]
-		,[ValidTo] [int]
 		)
 GO
 

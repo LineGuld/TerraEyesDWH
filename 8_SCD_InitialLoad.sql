@@ -23,6 +23,7 @@ VALUES ('DimAnimal', 20222505)
 , ('FactFiveMinuteSnapshotMeasurement' ,20222505)
 
 ALTER table edw.DimTerrarium ADD ValidFrom int, ValidTo int 
+ALTER table edw.DimAnimal ADD ValidFrom int, ValidTo int 
 GO
 
 /*
