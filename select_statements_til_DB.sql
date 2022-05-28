@@ -2,10 +2,10 @@ SELECT *
 FROM OPENQUERY(POSTGRESTE, 'SELECT * FROM terraeyes.measurement')
 
 SELECT *
-FROM [POSTGRESTE].[terraeyes].[terraeyes].[User];
+FROM [POSTGRESTE].[terraeyes].[terraeyes].[user];
 
 select *
-from OPENQUERY(POSTGRESTE, 'SELECT * FROM terraeyes."User"')
+from OPENQUERY(POSTGRESTE, 'SELECT * FROM terraeyes."user"')
 
 SELECT *
 FROM [POSTGRESTE].[terraeyes].[terraeyes].[terrarium];
