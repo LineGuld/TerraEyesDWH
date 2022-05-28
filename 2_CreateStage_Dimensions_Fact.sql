@@ -52,8 +52,7 @@ IF NOT EXISTS (
 		)
 	CREATE TABLE [stage].[TerrariumToAnimalBridge] (
 		[EUI] [varchar](64),
-		[AnimalID] [int]
-		)
+		[AnimalID] [int]	)
 GO
 
 

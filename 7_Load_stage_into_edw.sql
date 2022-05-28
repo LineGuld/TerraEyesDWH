@@ -1,8 +1,12 @@
 USE [TerraEyesDWH]
 
 /****** Load to edw User  ******/
-INSERT INTO [edw].[DimUser] ([UserID], [IsValid])
-SELECT [UserID], 1
+INSERT INTO [edw].[DimUser] (
+	[UserID]
+	,[IsValid]
+	)
+SELECT [UserID]
+	,1
 FROM [stage].[DimUser]
 
 /****** Load to edw Terrarium  ******/
@@ -30,9 +34,7 @@ INSERT INTO [edw].[DimAnimal] (
 	,[Age]
 	,[Species]
 	,[Sex]
-	,[IsShedding]
-	,[IsHibernating]
-	,[HasOffspring]
+
 	)
 SELECT [AnimalID]
 	,[EUI]
@@ -40,10 +42,18 @@ SELECT [AnimalID]
 	,[Age]
 	,[Species]
 	,[Sex]
-	,[IsShedding]
-	,[IsHibernating]
-	,[HasOffspring]
+
 FROM [stage].[DimAnimal]
+
+/****** Load to edw TerrariumToAnimalBridge  ******/
+INSERT INTO [edw].[TerrariumToAnimalBridge]
+SELECT sb.[EUI]
+	,CONCAT (
+		sb.[AnimalID]
+		,sb.[EUI]
+		)
+	,sb.[AnimalID]
+FROM [stage].[TerrariumToAnimalBridge] sb
 
 /****** Load to edw FactFifthteenMinuteSnapshotMeasurement  ******/
 INSERT INTO [edw].[FactFiveMinuteSnapshotMeasurement] (
@@ -66,9 +76,7 @@ INSERT INTO [edw].[FactFiveMinuteSnapshotMeasurement] (
 	,[HumidityOutOfRangeFlag]
 	,[CarbonDioxideOutOfRangeFlag]
 	)
-SELECT
-
-	t.[T_ID]
+SELECT t.[T_ID]
 	,d.[D_ID]
 	,u.[U_ID]
 	,te.[TE_ID]
@@ -86,14 +94,25 @@ SELECT
 	,f.[TemperatureOutOfRangeFlag]
 	,f.[HumidityOutOfRangeFlag]
 	,f.[CarbonDioxideOutOfRangeFlag]
-FROM [stage].[FactFiveMinuteSnapshotMeasurement] f   
-  JOIN [edw].[DimTime]  t ON f.[Time] = t.[Time]
-  JOIN [edw].[DimDate]  d ON f.[Date] = d.[Date]
- JOIN [edw].[DimUser]  u ON f.[UserID] = u.[UserID]
- JOIN [edw].[DimTerrarium]  te ON f.[EUI] = te.[EUI]
+FROM [stage].[FactFiveMinuteSnapshotMeasurement] f
+JOIN [edw].[DimTime] t ON f.[Time] = t.[Time]
+JOIN [edw].[DimDate] d ON f.[Date] = d.[Date]
+JOIN [edw].[DimUser] u ON f.[UserID] = u.[UserID]
+JOIN [edw].[DimTerrarium] te ON f.[EUI] = te.[EUI]
 
- 
+-- alter fact table -> add AnimalID on edw Fact
+ALTER TABLE [edw].[FactFiveMinuteSnapshotMeasurement] ADD [EUI_AnimalID] varchar(64);
 
-
-
- --2160
+-- update fact table
+UPDATE [edw].[FactFiveMinuteSnapshotMeasurement]
+SET [EUI_AnimalID] = ISNULL(subq.[EUI_AnimalID], '0')
+FROM [edw].[FactFiveMinuteSnapshotMeasurement] f
+ left JOIN (
+	SELECT 
+	t.[EUI]
+		,b.[EUI_AnimalID]
+		,b.[AnimalID]
+	FROM [edw].[TerrariumToAnimalBridge] b
+	RIGHT JOIN [edw].[DimTerrarium] t ON b.[EUI] = t.[EUI]
+	) AS subq ON f.[EUI] = subq.[EUI]
+	

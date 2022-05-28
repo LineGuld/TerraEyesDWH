@@ -24,17 +24,6 @@ UPDATE stage.DimAnimal
 SET AnimalID = 0 -- Betyder stadig intet dyr
 WHERE AnimalID IS NULL
 
-UPDATE stage.DimAnimal
-SET IsShedding = 0
-WHERE IsShedding IS NULL
-
-UPDATE stage.DimAnimal
-SET IsHibernating = 0
-WHERE IsHibernating IS NULL
-
-UPDATE stage.DimAnimal
-SET HasOffspring = 0
-WHERE HasOffspring IS NULL
 
 /***		TERRARIUM		***/
 UPDATE stage.DimTerrarium

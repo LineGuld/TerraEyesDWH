@@ -143,12 +143,7 @@ INSERT INTO [edw].[DimAnimal] ([AnimalID]
 , [Name]
 , [Age]
 , [Species]
-, [Sex]
-, [IsShedding]
-, [IsHibernating]
-, [HasOffspring]
-, [ValidFrom]
-, [ValidTo])
+, [Sex])
 	SELECT
 		[AnimalID]
 	   ,[EUI]
@@ -156,11 +151,6 @@ INSERT INTO [edw].[DimAnimal] ([AnimalID]
 	   ,[Age]
 	   ,[Species]
 	   ,[Sex]
-	   ,[IsShedding]
-	   ,[IsHibernating]
-	   ,[HasOffspring]
-	   ,@NewLoadDate
-	   ,@FutureDate
 	FROM [stage].[DimAnimal]
 	WHERE [AnimalID] IN (SELECT
 			[AnimalID]
@@ -180,9 +170,7 @@ SELECT
    ,[Age]
    ,[Species]
    ,[Sex]
-   ,[IsShedding]
-   ,[IsHibernating]
-   ,[HasOffspring] INTO #temp
+    INTO #temp
 FROM [stage].[DimAnimal]
 
 EXCEPT
@@ -194,9 +182,7 @@ SELECT --Undtagen det som allerede er i EDW
    ,[Age]
    ,[Species]
    ,[Sex]
-   ,[IsShedding]
-   ,[IsHibernating]
-   ,[HasOffspring]
+
 FROM [edw].[DimAnimal]
 WHERE ValidTo = @FutureDate
 
@@ -209,9 +195,7 @@ SELECT
    ,[Age]
    ,[Species]
    ,[Sex]
-   ,[IsShedding]
-   ,[IsHibernating]
-   ,[HasOffspring]
+   
 FROM [stage].[DimAnimal]
 WHERE AnimalID IN (SELECT
 		AnimalID
@@ -231,9 +215,7 @@ INSERT INTO edw.DimAnimal ([AnimalID]
 , [Age]
 , [Species]
 , [Sex]
-, [IsShedding]
-, [IsHibernating]
-, [HasOffspring]
+
 , [ValidFrom]
 , [ValidTo])
 	SELECT
@@ -243,9 +225,7 @@ INSERT INTO edw.DimAnimal ([AnimalID]
 	   ,[Age]
 	   ,[Species]
 	   ,[Sex]
-	   ,[IsShedding]
-	   ,[IsHibernating]
-	   ,[HasOffspring]
+
 	   ,@NewLoadDate
 	   ,@FutureDate
 	FROM #temp

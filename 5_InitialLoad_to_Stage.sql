@@ -37,9 +37,7 @@ INSERT INTO [stage].[DimAnimal] ([AnimalID]
 , [Age]
 , [Species]
 , [Sex]
-, [IsShedding]
-, [IsHibernating]
-, [HasOffspring])
+)
 	SELECT
 		a.[id]
 	   ,te.[EUI]
@@ -47,9 +45,7 @@ INSERT INTO [stage].[DimAnimal] ([AnimalID]
 	   ,a.[Age]
 	   ,a.[Species]
 	   ,a.[Sex]
-	   ,a.[IsShedding]
-	   ,a.[IsHibernating]
-	   ,a.[HasOffspring]
+	
 	FROM OPENQUERY(POSTGRESTE, 'SELECT * FROM terraeyes.animal') a
 	  JOIN [POSTGRESTE].[terraeyes].[terraeyes].[terrarium] te
 		ON a.EUI = te.EUI
@@ -82,7 +78,7 @@ INSERT INTO [stage].[FactFiveMinuteSnapshotMeasurement]
 ,[CarbonDioxideOutOfRangeFlag]
 )
 	SELECT
-	   ,CAST(m.[timestamp] AS DATE) as [date]
+	   CAST(m.[timestamp] AS DATE) as [date]
 	   ,CAST(m.[timestamp] AS TIME) as [time]
 	   ,u.[id]
 	   ,te.[EUI]
