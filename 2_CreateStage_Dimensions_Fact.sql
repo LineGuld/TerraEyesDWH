@@ -41,11 +41,21 @@ IF NOT EXISTS (
 		,[Age] [int]
 		,[Species] [varchar](128)
 		,[Sex] [char]
-		,[IsShedding] [bit] 
-		,[IsHibernating] [bit] 
-		,[HasOffspring] [bit]
 		)
 GO
+
+IF NOT EXISTS (
+		SELECT *
+		FROM sys.objects
+		WHERE object_id = OBJECT_ID(N'[stage].[TerrariumToAnimalBridge]')
+			AND type IN (N'U')
+		)
+	CREATE TABLE [stage].[TerrariumToAnimalBridge] (
+		[EUI] [varchar](64),
+		[AnimalID] [int]
+		)
+GO
+
 
 IF NOT EXISTS (
 		SELECT *
@@ -54,8 +64,7 @@ IF NOT EXISTS (
 			AND type IN (N'U')
 		)
 	CREATE TABLE [stage].[FactFiveMinuteSnapshotMeasurement] (
-		[AnimalID] [int]
-		,[Time] [Time] 
+		[Time] [Time] 
 		,[Date] [Date] 
 		,[UserID] [varchar](64) 
 		,[EUI] [varchar](64) 

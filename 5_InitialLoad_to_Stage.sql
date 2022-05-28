@@ -54,12 +54,19 @@ INSERT INTO [stage].[DimAnimal] ([AnimalID]
 	  JOIN [POSTGRESTE].[terraeyes].[terraeyes].[terrarium] te
 		ON a.EUI = te.EUI
 
+/****** Load to stage TerrariumToAnimalBridge  ******/
+INSERT INTO [stage].[TerrariumToAnimalBridge]
+select et.[EUI], st.[AnimalID]
+from [stage].[DimAnimal] st
+LEFT join [edw].[DimAnimal] et on st.[AnimalID] = et.[AnimalID]
+
+
+
 /****** Load to stage FactFiveMinuteSnapshotMeasurement  ******/
 TRUNCATE TABLE [stage].[FactFiveMinuteSnapshotMeasurement]
 
 INSERT INTO [stage].[FactFiveMinuteSnapshotMeasurement] 
-([AnimalID]
-, [Date]
+( [Date]
 , [Time]
 , [UserID]
 , [EUI]
@@ -75,7 +82,6 @@ INSERT INTO [stage].[FactFiveMinuteSnapshotMeasurement]
 ,[CarbonDioxideOutOfRangeFlag]
 )
 	SELECT
-		m.[id]
 	   ,CAST(m.[timestamp] AS DATE) as [date]
 	   ,CAST(m.[timestamp] AS TIME) as [time]
 	   ,u.[id]
