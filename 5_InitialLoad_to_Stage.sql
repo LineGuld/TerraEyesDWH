@@ -51,6 +51,8 @@ INSERT INTO [stage].[DimAnimal] ([AnimalID]
 		ON a.EUI = te.EUI
 
 /****** Load to stage TerrariumToAnimalBridge  ******/
+TRUNCATE TABLE [stage].[TerrariumToAnimalBridge]
+
 INSERT INTO [stage].[TerrariumToAnimalBridge]
 select et.[EUI], st.[AnimalID]
 from [stage].[DimAnimal] st

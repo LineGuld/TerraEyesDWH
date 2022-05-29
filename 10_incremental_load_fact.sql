@@ -17,8 +17,7 @@ SET @LastLoadDate = (SELECT
 	TRUNCATE TABLE stage.FactFiveMinuteSnapshotMeasurement
 
 INSERT INTO stage.FactFiveMinuteSnapshotMeasurement (
-AnimalID
-, [Date]
+ [Date]
 , [Time]
 , UserID
 , EUI
@@ -58,11 +57,6 @@ AnimalID
 
 		-- Fact cleansing
 UPDATE stage.FactFiveMinuteSnapshotMeasurement
-SET AnimalID = -1 -- Betyder stadig intet dyr
-WHERE [AnimalID] IS NULL
-
-
-UPDATE stage.FactFiveMinuteSnapshotMeasurement
 SET [Date] = '9999-01-01'
 WHERE [Date] IS NULL
 
@@ -96,12 +90,10 @@ WHERE ServoMoved IS NULL
 
 -- OG så det nye ind i edw
 INSERT INTO [edw].[FactFiveMinuteSnapshotMeasurement] (
-[A_ID]
-	,[T_ID]
+	[T_ID]
 	,[D_ID]
 	,[U_ID]
-	,[TE_ID],
-	[AnimalID]
+	,[TE_ID]
 	,[Time]
 	,[Date]
 	,[UserID]
@@ -118,12 +110,10 @@ INSERT INTO [edw].[FactFiveMinuteSnapshotMeasurement] (
 	,[CarbonDioxideOutOfRangeFlag]
 	)
 SELECT
-a.[A_ID]
-	,t.[T_ID]
+	t.[T_ID]
 	,d.[D_ID]
 	,u.[U_ID]
-	,te.[TE_ID],
-	f.[AnimalID]
+	,te.[TE_ID]
 	,f.[Time]
 	,f.[Date]
 	,f.[UserID]
@@ -139,11 +129,9 @@ a.[A_ID]
 	,f.[HumidityOutOfRangeFlag]
 	,f.[CarbonDioxideOutOfRangeFlag]
 FROM [stage].[FactFiveMinuteSnapshotMeasurement] f
- JOIN [edw].[DimAnimal] AS a ON f.[AnimalID] = a.[AnimalID]
  JOIN [edw].[DimTime] AS t ON f.[Time] = t.[Time]
  JOIN [edw].[DimDate] AS d ON f.[Date] = d.[Date]
  JOIN [edw].[DimUser] AS u ON f.[UserID] = u.[UserID]
  JOIN [edw].[DimTerrarium] AS te ON f.[EUI] = te.[EUI]
- WHERE a.ValidTo = @FutureDate
  AND u.IsValid = 1
  AND te.ValidTo = @FutureDate

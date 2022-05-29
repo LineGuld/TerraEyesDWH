@@ -51,10 +51,10 @@ WHERE MaxCarbon IS NULL
 SET AnimalID = 0 -- Betyder stadig intet dyr
 WHERE [AnimalID] IS NULL */
 
-/**
+
 UPDATE stage.FactFiveMinuteSnapshotMeasurement
-SET [Time] = '00:00'
-WHERE [Time] IS NULL **/
+SET [Time] = Cast([Time] as time(0))
+WHERE [Time] is not null
 
 UPDATE stage.FactFiveMinuteSnapshotMeasurement
 SET [Date] = '9999-01-01'

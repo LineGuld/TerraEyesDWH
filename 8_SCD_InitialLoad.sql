@@ -13,23 +13,21 @@ CREATE Table etl.[LogUpdate](
 	,[LastLoadDate] INT
 )
 
+DECLARE @InitialLoadDate INT
+SET @InitialLoadDate = CONVERT(CHAR(8), GETDATE(), 112)
 
 INSERT INTO etl.LogUpdate(TableName, LastLoadDate)
-VALUES ('DimAnimal', 20222505)
-,('DimTerrarium', 20222505)
-, ('DimUser', 20222505)
-, ('DimDate', 20222505)
-, ('DimTime' ,20222505)
-, ('FactFiveMinuteSnapshotMeasurement' ,20222505)
+VALUES ('DimAnimal', @InitialLoadDate)
+,('DimTerrarium', @InitialLoadDate)
+, ('DimUser', @InitialLoadDate)
+, ('DimDate', @InitialLoadDate)
+, ('DimTime' , @InitialLoadDate)
+, ('TerrariumToAnimalBridge', @InitialLoadDate)
+, ('FactFiveMinuteSnapshotMeasurement' , @InitialLoadDate)
 
 ALTER table edw.DimTerrarium ADD ValidFrom int, ValidTo int 
-ALTER table edw.DimAnimal ADD ValidFrom int, ValidTo int 
+ALTER table [edw].[TerrariumToAnimalBridge] ADD ValidFrom int, ValidTo int 
 GO
 
-/*
-ALTER table edw.DimUser add IsValid bit 
-GO*/
-
-UPDATE edw.DimTerrarium SET ValidFrom = 20222505, ValidTo = 99990101 
-UPDATE edw.DimAnimal SET ValidFrom = 20222505, ValidTo = 99990101 
---UPDATE edw.DimUser SET IsValid = 1
+UPDATE edw.DimTerrarium SET ValidFrom = @InitialLoadDate, ValidTo = 99990101 
+UPDATE [edw].[TerrariumToAnimalBridge] SET ValidFrom = @InitialLoadDate, ValidTo = 99990101 

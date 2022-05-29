@@ -34,7 +34,6 @@ INSERT INTO [edw].[DimAnimal] (
 	,[Age]
 	,[Species]
 	,[Sex]
-
 	)
 SELECT [AnimalID]
 	,[EUI]
@@ -42,7 +41,6 @@ SELECT [AnimalID]
 	,[Age]
 	,[Species]
 	,[Sex]
-
 FROM [stage].[DimAnimal]
 
 /****** Load to edw TerrariumToAnimalBridge  ******/
@@ -99,9 +97,11 @@ JOIN [edw].[DimTime] t ON f.[Time] = t.[Time]
 JOIN [edw].[DimDate] d ON f.[Date] = d.[Date]
 JOIN [edw].[DimUser] u ON f.[UserID] = u.[UserID]
 JOIN [edw].[DimTerrarium] te ON f.[EUI] = te.[EUI]
+--WHERE f.EUI = '0004A30B00259F36'
 
 -- alter fact table -> add AnimalID on edw Fact
 ALTER TABLE [edw].[FactFiveMinuteSnapshotMeasurement] ADD [EUI_AnimalID] varchar(64);
+GO
 
 -- update fact table
 UPDATE [edw].[FactFiveMinuteSnapshotMeasurement]

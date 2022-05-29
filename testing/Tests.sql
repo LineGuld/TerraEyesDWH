@@ -16,7 +16,6 @@ SELECT
 	AVG(Temperature) AS [AverageOfTemperaturesinEDW]
 FROM [TerraeyesTESTdwh].[edw].[FactFiveMinuteSnapshotMeasurement]
 
-
 /**		TERRARIUM		**/
 SELECT
 	COUNT(eui) AS [NumberTerrariaInDB]
@@ -24,7 +23,6 @@ FROM TestSourceDb.dbo.Terrarium
 SELECT
 	COUNT(EUI) AS [NumberOfTerrariaInEDW]
 FROM [TerraeyesTESTdwh].[edw].[DimTerrarium]
-
 
 -- minimum grænse kommer rigtigt over
 SELECT
@@ -36,7 +34,6 @@ SELECT
 FROM [TerraeyesTESTdwh].[edw].[DimTerrarium]
 WHERE eui = 'abc123'
 
-
 -- max grænse kommer rigtigt over
 SELECT
 	[maxTemperature] AS [MaxTemperaturesInDB]
@@ -47,8 +44,6 @@ SELECT
 FROM [TerraeyesTESTdwh].[edw].[DimTerrarium]
 WHERE eui = 'abc123'
 
-
-
 /****		ANIMAL		***/
 SELECT
 	COUNT(id) AS [NumberAnimalsInDB]
@@ -56,9 +51,6 @@ FROM TestSourceDb.dbo.Animal
 SELECT
 	COUNT(AnimalID) AS [NumberOfAnimalsInEDW]
 FROM [TerraeyesTESTdwh].[edw].[DimAnimal]
-
-
-
 
 /****		USER		***/
 SELECT
