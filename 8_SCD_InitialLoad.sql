@@ -25,9 +25,11 @@ VALUES ('DimAnimal', @InitialLoadDate)
 , ('TerrariumToAnimalBridge', @InitialLoadDate)
 , ('FactFiveMinuteSnapshotMeasurement' , @InitialLoadDate)
 
-ALTER table edw.DimTerrarium ADD ValidFrom int, ValidTo int 
+ALTER table [edw].[DimTerrarium] ADD ValidFrom int, ValidTo int 
+ALTER table [edw].[DimAnimal] ADD ValidFrom int, ValidTo int 
 ALTER table [edw].[TerrariumToAnimalBridge] ADD ValidFrom int, ValidTo int 
 GO
 
-UPDATE edw.DimTerrarium SET ValidFrom = @InitialLoadDate, ValidTo = 99990101 
+UPDATE [edw].[DimTerrarium] SET ValidFrom = @InitialLoadDate, ValidTo = 99990101 
+UPDATE [edw].[DimAnimal] SET ValidFrom = @InitialLoadDate, ValidTo = 99990101 
 UPDATE [edw].[TerrariumToAnimalBridge] SET ValidFrom = @InitialLoadDate, ValidTo = 99990101 
