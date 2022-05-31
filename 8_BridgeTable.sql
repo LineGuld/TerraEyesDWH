@@ -39,13 +39,13 @@ LEFT join [edw].[DimAnimal] et on st.[AnimalID] = et.[AnimalID]
 
 /****** Load to edw TerrariumToAnimalBridge  ******/
 INSERT INTO [edw].[TerrariumToAnimalBridge]
-SELECT sb.[EUI]
+SELECT [EUI]
 	,CONCAT (
-		sb.[AnimalID]
-		,sb.[EUI]
+		EUI,
+		AnimalID
 		)
-	,sb.[AnimalID]
-FROM [stage].[TerrariumToAnimalBridge] sb
+	,[AnimalID]
+FROM [stage].[TerrariumToAnimalBridge]
 
 -- alter fact table -> add EUI_AnimalID on edw Fact
 ALTER TABLE [edw].[FactFiveMinuteSnapshotMeasurement] ADD [EUI_AnimalID] varchar(64);
