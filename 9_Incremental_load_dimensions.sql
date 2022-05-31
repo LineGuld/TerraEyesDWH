@@ -345,3 +345,32 @@ Where eaid not in (
 /** Bridge ændringer **/
 Update edw.TerrariumToAnimalBridge
 Set ValidTo = @NewLoadDate - 1
+Where EUI in (
+	Select EUI
+	From edw.TerrariumToAnimalBridge eb
+	Where EUI not in (
+		Select EUI
+		From stage.TerrariumToAnimalBridge sb
+		Where eb.EUI = sb.EUI
+			and eb.AnimalID = sb.AnimalID))
+
+Insert into edw.TerrariumToAnimalBridge
+		(EUI,
+		EUI_AnimalID,
+		AnimalID,
+		ValidFrom,
+		ValidTo)
+Select EUI,
+	CONCAT (EUI, AnimalID),
+	AnimalID,
+	@NewLoadDate,
+	@FutureDate
+From stage.TerrariumToAnimalBridge
+Where AnimalID in (
+	Select AnimalID
+	From edw.TerrariumToAnimalBridge eb
+	Where AnimalID not in (
+		Select AnimalID
+		From stage.TerrariumToAnimalBridge sb
+		Where eb.EUI = sb.EUI
+			and eb.AnimalID = sb.AnimalID))
