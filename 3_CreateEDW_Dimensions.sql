@@ -39,8 +39,6 @@ IF NOT EXISTS (
 		,[MinHum] [decimal](3, 1)
 		,[MaxHum] [decimal](3, 1)
 		,[MaxCarbon] [int]
-		,[ValidFrom] [int]
-		,[ValidTo][int]
 		,CONSTRAINT [PK_DimTerrarium] PRIMARY KEY CLUSTERED ([TE_ID] ASC) WITH (
 			PAD_INDEX = OFF
 			,STATISTICS_NORECOMPUTE = OFF
@@ -67,7 +65,6 @@ IF NOT EXISTS (
 		,[Age] [int]
 		,[Species] [varchar](128)
 		,[Sex] [char]
-
 		,[ClimateZone] [varchar](64)
 		,CONSTRAINT [PK_DimAnimal] PRIMARY KEY CLUSTERED ([A_ID] ASC) WITH (
 			PAD_INDEX = OFF
@@ -233,17 +230,3 @@ SET @hour = @hour + 1
 SET @minute =0 
 END 
 
-
-/****** Create TerrariumToAnimalBridge Table if it does not exist ******/
-IF NOT EXISTS (
-		SELECT *
-		FROM sys.objects
-		WHERE object_id = OBJECT_ID(N'[edw].[TerrariumToAnimalBridge]')
-			AND type IN (N'U')
-		)
-	CREATE TABLE [edw].[TerrariumToAnimalBridge] (
-		[EUI] [varchar](64),
-		[EUI_AnimalID] [varchar](64),
-		[AnimalID] [int],
-		)
-GO

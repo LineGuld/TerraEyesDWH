@@ -50,16 +50,6 @@ INSERT INTO [stage].[DimAnimal] ([AnimalID]
 	  JOIN [POSTGRESTE].[terraeyes].[terraeyes].[terrarium] te
 		ON a.EUI = te.EUI
 
-/****** Load to stage TerrariumToAnimalBridge  ******/
-TRUNCATE TABLE [stage].[TerrariumToAnimalBridge]
-
-INSERT INTO [stage].[TerrariumToAnimalBridge]
-select et.[EUI], st.[AnimalID]
-from [stage].[DimAnimal] st
-LEFT join [edw].[DimAnimal] et on st.[AnimalID] = et.[AnimalID]
-
-
-
 /****** Load to stage FactFiveMinuteSnapshotMeasurement  ******/
 TRUNCATE TABLE [stage].[FactFiveMinuteSnapshotMeasurement]
 

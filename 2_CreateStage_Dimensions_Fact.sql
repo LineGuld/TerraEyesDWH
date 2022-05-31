@@ -44,17 +44,6 @@ IF NOT EXISTS (
 		)
 GO
 
-IF NOT EXISTS (
-		SELECT *
-		FROM sys.objects
-		WHERE object_id = OBJECT_ID(N'[stage].[TerrariumToAnimalBridge]')
-			AND type IN (N'U')
-		)
-	CREATE TABLE [stage].[TerrariumToAnimalBridge] (
-		[EUI] [varchar](64),
-		[AnimalID] [int]	)
-GO
-
 
 IF NOT EXISTS (
 		SELECT *
