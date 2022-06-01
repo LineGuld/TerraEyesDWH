@@ -374,3 +374,15 @@ Where AnimalID in (
 		From stage.TerrariumToAnimalBridge sb
 		Where eb.EUI = sb.EUI
 			and eb.AnimalID = sb.AnimalID))
+
+/** Bridge slettet **/
+Update edw.TerrariumToAnimalBridge
+Set ValidTo = @NewLoadDate - 1
+Where AnimalID in (
+	Select AnimalID
+	From edw.TerrariumToAnimalBridge eb
+	Where AnimalID not in (
+		Select AnimalID
+		From stage.TerrariumToAnimalBridge sb
+		Where sb.AnimalID = eb.AnimalID
+			and sb.EUI = eb.EUI))
