@@ -10,6 +10,7 @@ select * from edw.DimDate
 select * from edw.DimUser
 select * from edw.DimTerrarium
 
+select * from stage.TerrariumToAnimalBridge
 select * from edw.TerrariumToAnimalBridge
 
 select * from stage.FactFiveMinuteSnapshotMeasurement where AnimalID is not null

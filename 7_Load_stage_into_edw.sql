@@ -43,15 +43,7 @@ SELECT [AnimalID]
 	,[Sex]
 FROM [stage].[DimAnimal]
 
-/****** Load to edw TerrariumToAnimalBridge  ******/
-INSERT INTO [edw].[TerrariumToAnimalBridge]
-SELECT sb.[EUI]
-	,CONCAT (
-		sb.[AnimalID]
-		,sb.[EUI]
-		)
-	,sb.[AnimalID]
-FROM [stage].[TerrariumToAnimalBridge] sb
+
 
 /****** Load to edw FactFifthteenMinuteSnapshotMeasurement  ******/
 INSERT INTO [edw].[FactFiveMinuteSnapshotMeasurement] (
@@ -97,22 +89,6 @@ JOIN [edw].[DimTime] t ON f.[Time] = t.[Time]
 JOIN [edw].[DimDate] d ON f.[Date] = d.[Date]
 JOIN [edw].[DimUser] u ON f.[UserID] = u.[UserID]
 JOIN [edw].[DimTerrarium] te ON f.[EUI] = te.[EUI]
---WHERE f.EUI = '0004A30B00259F36'
 
--- alter fact table -> add AnimalID on edw Fact
-ALTER TABLE [edw].[FactFiveMinuteSnapshotMeasurement] ADD [EUI_AnimalID] varchar(64);
-GO
 
--- update fact table
-UPDATE [edw].[FactFiveMinuteSnapshotMeasurement]
-SET [EUI_AnimalID] = ISNULL(subq.[EUI_AnimalID], '0')
-FROM [edw].[FactFiveMinuteSnapshotMeasurement] f
- left JOIN (
-	SELECT 
-	t.[EUI]
-		,b.[EUI_AnimalID]
-		,b.[AnimalID]
-	FROM [edw].[TerrariumToAnimalBridge] b
-	RIGHT JOIN [edw].[DimTerrarium] t ON b.[EUI] = t.[EUI]
-	) AS subq ON f.[EUI] = subq.[EUI]
 	

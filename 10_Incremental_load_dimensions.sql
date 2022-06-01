@@ -68,6 +68,16 @@ SET UserID = (
 		FROM [edw].[DimUser]))
 WHERE UserID = '-1' --Men sæt den kun hvis bruger-ID i EDW er det vi har brugt til late arriving users
 
+/** Update logtable**/
+INSERT INTO etl.LogUpdate(
+	TableName
+	,LastLoadDate
+)
+VALUES(
+'DimUser'
+,@NewLoadDate
+)
+
 /**			TERRARIUM		**/
 SET @LastLoadDate = (SELECT
 		MAX([LastLoadDate])
@@ -101,8 +111,7 @@ INSERT INTO edw.DimTerrarium (EUI
 
 		SELECT
 			EUI
-		FROM edw.DimTerrarium
-		WHERE ValidTo = @FutureDate)
+		FROM edw.DimTerrarium)
 
 /**		De terrarier folk sletter!		**/
 UPDATE edw.DimTerrarium
@@ -129,6 +138,53 @@ VALUES(
 ,@NewLoadDate
 )
 
+/** Terrarier der er opdateret **/
+UPDATE edw.DimTerrarium
+SET ValidTo = @NewLoadDate - 1
+WHERE EUI IN (SELECT
+		EUI
+	FROM edw.DimTerrarium dt
+	WHERE EUI NOT IN(
+		SELECT EUI
+		FROM stage.DimTerrarium st
+		WHERE st.MinTemp = dt.MinTemp
+		and st.MaxTemp = dt.MaxTemp
+		and st.MinHum = dt.MinHum
+		and st.MaxHum = dt.MaxHum
+		and st.MaxCarbon = dt.MaxCarbon
+		and st.EUI = dt.EUI))
+
+Insert into edw.DimTerrarium
+		(EUI,
+		MinTemp,
+		MaxTemp,
+		MinHum,
+		MaxHum,
+		MaxCarbon,
+		ValidFrom,
+		ValidTo)
+	Select
+		EUI,
+		MinTemp,
+		MaxTemp,
+		MinHum,
+		MaxHum,
+		MaxCarbon,
+		@NewLoadDate,
+		@FutureDate
+	From stage.DimTerrarium
+	Where EUI in (SELECT
+		EUI
+	FROM edw.DimTerrarium dt
+	WHERE EUI NOT IN(
+		SELECT EUI
+		FROM stage.DimTerrarium st
+		WHERE st.MinTemp = dt.MinTemp
+		and st.MaxTemp = dt.MaxTemp
+		and st.MinHum = dt.MinHum
+		and st.MaxHum = dt.MaxHum
+		and st.MaxCarbon = dt.MaxCarbon
+		and st.EUI = dt.EUI))
 
 /**			ANIMAL		**/
 
@@ -264,3 +320,69 @@ VALUES(
 'DimAnimal'
 ,@NewLoadDate
 )
+
+/**  Bridge nye dyr **/
+With CTE AS (
+	Select CONCAT (EUI, AnimalID) AS eaid
+	From stage.TerrariumToAnimalBridge)
+Insert into edw.TerrariumToAnimalBridge (
+	EUI,
+	EUI_AnimalID,
+	AnimalID,
+	ValidFrom,
+	ValidTo)
+Select EUI,
+	eaid,
+	AnimalID,
+	@NewLoadDate,
+	@FutureDate
+From stage.TerrariumToAnimalBridge, CTE
+Where eaid not in (
+	Select EUI_AnimalID
+	From edw.TerrariumToAnimalBridge);
+
+
+/** Bridge ændringer **/
+Update edw.TerrariumToAnimalBridge
+Set ValidTo = @NewLoadDate - 1
+Where EUI in (
+	Select EUI
+	From edw.TerrariumToAnimalBridge eb
+	Where EUI not in (
+		Select EUI
+		From stage.TerrariumToAnimalBridge sb
+		Where eb.EUI = sb.EUI
+			and eb.AnimalID = sb.AnimalID))
+
+Insert into edw.TerrariumToAnimalBridge
+		(EUI,
+		EUI_AnimalID,
+		AnimalID,
+		ValidFrom,
+		ValidTo)
+Select EUI,
+	CONCAT (EUI, AnimalID),
+	AnimalID,
+	@NewLoadDate,
+	@FutureDate
+From stage.TerrariumToAnimalBridge
+Where AnimalID in (
+	Select AnimalID
+	From edw.TerrariumToAnimalBridge eb
+	Where AnimalID not in (
+		Select AnimalID
+		From stage.TerrariumToAnimalBridge sb
+		Where eb.EUI = sb.EUI
+			and eb.AnimalID = sb.AnimalID))
+
+/** Bridge slettet **/
+Update edw.TerrariumToAnimalBridge
+Set ValidTo = @NewLoadDate - 1
+Where AnimalID in (
+	Select AnimalID
+	From edw.TerrariumToAnimalBridge eb
+	Where AnimalID not in (
+		Select AnimalID
+		From stage.TerrariumToAnimalBridge sb
+		Where sb.AnimalID = eb.AnimalID
+			and sb.EUI = eb.EUI))
