@@ -39,8 +39,8 @@ IF NOT EXISTS (
 		,[MinHum] [decimal](3, 1)
 		,[MaxHum] [decimal](3, 1)
 		,[MaxCarbon] [int]
-		,[ValidFrom] [int]
-		,[ValidTo][int]
+		--,[ValidFrom] [int]
+	--	,[ValidTo][int]
 		,CONSTRAINT [PK_DimTerrarium] PRIMARY KEY CLUSTERED ([TE_ID] ASC) WITH (
 			PAD_INDEX = OFF
 			,STATISTICS_NORECOMPUTE = OFF
