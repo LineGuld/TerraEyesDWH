@@ -1,4 +1,4 @@
-USE [TerraEyesDWH]
+ USE [TerraEyesDWH]
 GO
 
 /***	ETL Log Table		**/
@@ -30,6 +30,8 @@ ALTER table [edw].[DimAnimal] ADD ValidFrom int, ValidTo int
 ALTER table [edw].[TerrariumToAnimalBridge] ADD ValidFrom int, ValidTo int 
 GO
 
+DECLARE @InitialLoadDate INT
+SET @InitialLoadDate = CONVERT(CHAR(8), GETDATE(), 112)
 UPDATE [edw].[DimTerrarium] SET ValidFrom = @InitialLoadDate, ValidTo = 99990101 
 UPDATE [edw].[DimAnimal] SET ValidFrom = @InitialLoadDate, ValidTo = 99990101 
 UPDATE [edw].[TerrariumToAnimalBridge] SET ValidFrom = @InitialLoadDate, ValidTo = 99990101 
